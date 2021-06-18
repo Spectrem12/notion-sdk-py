@@ -5,13 +5,24 @@ from typing import Any, Dict, List, Type
 from .custom_enums import NumberPropertyFormat, RollupFunctionType
 from .datatypes import APIObject, MultiselectOption, Property, RichText, SelectOption
 
+from autologging import logged, traced, TRACE
+import logging
+import sys
+from notion_client import logging as lg
 
+logging.basicConfig(level = TRACE, stream = sys.stdout, format = "%(levelname)s:%(name)s:%(funcName)s:%(message)s")
+logging.getLogger().setLevel(TRACE)
+
+
+@logged
+@traced
 @dataclass
 class Database(APIObject):
     title: List[RichText]
     properties: Dict[str, Property]
 
     @classmethod
+    @logged
     def from_json(cls, d: Dict[str, Any]) -> "Database":
         return Database(
             id=d["id"],
