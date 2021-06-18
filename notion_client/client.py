@@ -1,6 +1,6 @@
 """Sync and async clients for notion-sdk-py."""
 
-import logging
+# import logging
 from abc import abstractclassmethod
 from dataclasses import dataclass
 from typing import Any, Dict, Optional, Union
@@ -23,7 +23,7 @@ from notion_client.errors import (
     is_api_error_code,
     is_timeout_error,
 )
-from notion_client.logging import make_console_logger
+# from notion_client.logging import make_console_logger
 from notion_client.typing import SyncAsync
 
 
@@ -47,8 +47,8 @@ class ClientOptions:
     auth: Optional[str] = None
     timeout_ms: int = 60_000
     base_url: str = "https://api.notion.com"
-    log_level: int = logging.WARNING
-    logger: Optional[logging.Logger] = None
+    # log_level: int = logging.WARNING
+    # logger: Optional[logging.Logger] = None
     notion_version: str = "2021-05-13"
 
 
@@ -64,8 +64,8 @@ class BaseClient:
         elif isinstance(options, dict):
             options = ClientOptions(**options)
 
-        self.logger = options.logger or make_console_logger()
-        self.logger.setLevel(options.log_level)
+        # self.logger = options.logger or make_console_logger()
+        # self.logger.setLevel(options.log_level)
 
         self.client = client
         self.client.base_url = httpx.URL(options.base_url + "/v1/")
@@ -96,7 +96,7 @@ class BaseClient:
         headers = httpx.Headers()
         if auth:
             headers["Authorization"] = f"Bearer {auth}"
-        self.logger.info(f"{method} {self.client.base_url}{path}")
+        # self.logger.info(f"{method} {self.client.base_url}{path}")
         return self.client.build_request(
             method, path, params=query, json=body, headers=headers
         )
